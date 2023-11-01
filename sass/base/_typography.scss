@@ -1,0 +1,11 @@
+@use "../utils" as u;
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;500&display=swap');
+
+body, button, input {
+    font-family: 'Outfit', sans-serif;
+    color: u.$color-text-primary;
+}
+
+p {
+    font-weight: 300;
+}

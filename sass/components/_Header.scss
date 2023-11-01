@@ -1,0 +1,56 @@
+@use "../utils" as u;
+
+header {
+    background-color: u.$color-bg-secondary;
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.2rem;
+
+    @include u.tablet-only {
+        width: 95%;
+        margin: 20px auto;
+        border-radius: 10px;
+    }
+
+    @include u.desktop-only {
+        flex-direction: column;
+        width: 5%;
+        height: 95vh;
+        justify-content: flex-start;
+        padding: 2rem 0;
+        margin: 2.5vh 2.5vh;
+    }
+
+    nav {
+        @include u.desktop-only {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: auto;
+            margin-top: 3rem;
+        }
+
+        a {
+            margin: 0 0.8rem;
+
+            @include u.desktop-only {
+                margin: 0.8rem 0;
+            }
+        }
+    }
+
+
+
+    .header__profile-button {
+        padding: 1px;
+        background-color: white;
+        height: 27px;
+        border-radius: 50px;
+
+        img {
+            height: 100%;
+        }
+    }
+    
+}

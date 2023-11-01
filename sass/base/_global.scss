@@ -1,0 +1,22 @@
+@use "../utils" as u;
+
+* { 
+    -moz-box-sizing: border-box; 
+    -webkit-box-sizing: border-box; 
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    -webkit-tap-highlight-color: transparent;
+}
+
+body {
+    background-color: u.$color-bg-primary;
+}
+
+#app {
+    @include u.desktop-only {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+    }
+}

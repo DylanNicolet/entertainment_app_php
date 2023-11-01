@@ -1,0 +1,40 @@
+@use "../utils" as u;
+
+.search {
+    width: 90%;
+    margin: 1.5rem auto;
+    display: flex;
+    flex-wrap: nowrap;
+
+    @include u.desktop-only {
+        width: auto;
+        margin: 3rem 2rem;
+    }
+
+    .search__icon {
+        margin-right: 1rem;
+    }
+
+    .search__input {
+        width: 100%;
+        border: 0;
+        color: u.$color-text-primary;
+        background-color: transparent;
+        font-size: 1.1rem;
+        font-weight: 300;
+        outline: none;
+        caret-color: u.$color-primary;
+
+        &:focus, &:active {
+            border-bottom: 1px solid u.$color-secondary;
+        }
+
+        @include u.tablet-only {
+            font-size: 1.4rem;
+        }
+
+        @include u.desktop-only {
+            font-size: 1.2rem;
+        }
+    }
+}
