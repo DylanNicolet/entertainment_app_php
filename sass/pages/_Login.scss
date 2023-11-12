@@ -44,6 +44,15 @@ body.login, body.sign_up {
                     &.--error {
                         border-bottom: 1px solid u.$color-primary;
                     }
+
+                    &:-webkit-autofill {
+                        -webkit-box-shadow: 0 0 0 100px u.$color-bg-secondary inset;
+                        -webkit-text-fill-color: u.$color-text-primary;
+                    }
+
+                    &:focus {
+                        outline: none;
+                    }
                 }
 
                 .error_msg {
@@ -62,6 +71,7 @@ body.login, body.sign_up {
                 border: none;
                 background-color: u.$color-primary;
                 font-weight: 200;
+                cursor: pointer;
             }
         }
     }

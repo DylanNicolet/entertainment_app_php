@@ -13,6 +13,10 @@ body {
     background-color: u.$color-bg-primary;
 }
 
+p, h1, h2, h3, h4 {
+    cursor: default;
+}
+
 #app {
     @include u.desktop-only {
         display: flex;

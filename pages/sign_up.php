@@ -1,7 +1,4 @@
 <?php
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-
 include("../database.php");
 
 $email_error = "";
@@ -21,6 +18,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         try {
             mysqli_query($conn, $sql);
             $email_error = "";
+
+            header("Location: homepage.php");
+            exit();
         } catch (mysqli_sql_exception $e) {
             $email_error = "This Email is already registered";
         }
@@ -77,6 +77,8 @@ mysqli_close($conn);
         $(document).ready(function() {
             // Handle form submit and validation
             $("#btn_submit").on("click", function(e) {
+                e.preventDefault();
+
                 let userEmail = $("#input_email");
                 let password = $("#input_password");
                 let passwordConfirmation = $("#input_password_confirmation");
@@ -122,7 +124,6 @@ mysqli_close($conn);
                 }
 
                 if (wholeFormValid) {
-                    console.log("submitting");
                     $("#sign_up_form").submit();
                 }
             });
