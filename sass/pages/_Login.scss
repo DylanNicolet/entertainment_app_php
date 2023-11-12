@@ -1,7 +1,86 @@
 @use "../utils" as u;
 
-.logo-container {
-    background-color: red;
-    width: 100%;
+body.login, body.sign_up {
+    .logo-container {
+        width: 100%;
+        height: 9rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     
+        img {
+            width: 10%;
+        }
+    }
+
+    .form-login {
+        width: 87%;
+        margin: auto;
+        background-color: u.$color-bg-secondary;
+        border-radius: 10px;
+        padding: 1.5rem;
+
+        h1 {
+            font-weight: 200;
+            margin-bottom: 1rem;
+        }
+
+        fieldset {
+            border: none;
+
+            .input_container {
+                width: 100%;
+
+                input {
+                    padding-left: 1rem;
+                    width: 100%;
+                    height: 3rem;
+                    background-color: transparent;
+                    border: none;
+                    border-bottom: 1px solid u.$color-secondary;
+                    font-size: 0.8rem;
+                    caret-color: u.$color-primary;
+
+                    &.--error {
+                        border-bottom: 1px solid u.$color-primary;
+                    }
+                }
+
+                .error_msg {
+                    margin-top: 0.1rem;
+                    color: u.$color-primary;
+                    font-size: 0.8rem;
+                }
+            }
+
+
+            button {
+                width: 100%;
+                margin: 2rem 0;
+                height: 3rem;
+                border-radius: 7px;
+                border: none;
+                background-color: u.$color-primary;
+                font-weight: 200;
+            }
+        }
+    }
+
+    .alternative-link-wrapper {
+        width: 100%;
+        display: flex;
+        flex-wrap: nowrap;
+        justify-content: center;
+        font-size: 0.9rem;
+
+        p {
+            margin-right: 0.6rem;
+        }
+
+        a {
+            color: u.$color-primary;
+            font-weight: 100;
+            text-decoration: none;
+        }
+    }
 }
