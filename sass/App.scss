@@ -1,10 +1,11 @@
 @use "./base/global";
 @use "./base/typography";
 
-@use "./components/Header";
+@use "./layouts/Header";
+
 @use "./components/Search";
 @use "./components/TrendingItemCard";
-@use "./components/ItemCard";
+@use "./components/homepage-card";
 
 @use "./pages/Home";
 @use "./pages/Login";

@@ -1,4 +1,5 @@
 <?php
+session_start();
 include("database.php");
 
 $email_error = "";
@@ -14,7 +15,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $email_error = "Please enter a password";
     } else {
         // Using prepared statements to avoid SQL injection
-        $sql = "SELECT user_password FROM users WHERE user_email = ?";
+        $sql = "SELECT user_password, id FROM users WHERE user_email = ?";
         $stmt = mysqli_prepare($conn, $sql);
         mysqli_stmt_bind_param($stmt, "s", $user_email);
         mysqli_stmt_execute($stmt);
@@ -23,12 +24,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if ($result) {
             if (mysqli_num_rows($result) > 0) {
                 $row = mysqli_fetch_assoc($result);
-                $retrievedPassword = $row['user_password'];
+                $retrieved_password = $row['user_password'];
+                $retrieved_id = $row['id'];
                 $email_error = "";
 
-                if (password_verify($password, $retrievedPassword)) {
+                if (password_verify($password, $retrieved_password)) {
                     // Passwords matched
                     $password_error = "";
+                    $_SESSION["user_id"] = $retrieved_id;
                     header("Location: pages/homepage.php");
                     exit();
                 } else {
@@ -52,6 +55,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Entertainment Web App | Login</title>
+    <link rel="icon" type="image/png" href="assets/logo.svg">
     <link rel="stylesheet" href="sass/App.css">
 </head>
 
