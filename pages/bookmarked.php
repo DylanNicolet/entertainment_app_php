@@ -2,11 +2,10 @@
 session_start();
 include("../database.php");
 
-// Get bookmarks of current user from database
+// Get bookmarks and id of current user from database, used in "main_content_card.php"
 $userID = $_SESSION["user_id"];
 $sql_user_bookmarks = "SELECT bookmarks FROM users WHERE id = $userID";
 $result = $conn->query($sql_user_bookmarks);
-
 if ($result->num_rows > 0) {
     $row = $result->fetch_assoc();
     $bookmarks = json_decode($row['bookmarks'], true);
@@ -15,10 +14,22 @@ if ($result->num_rows > 0) {
 // Get all data from database
 $sql = "SELECT * FROM data";
 $result = $conn->query($sql);
-
 if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
         $all_data[] = $row;
+    }
+}
+
+// Filter all_data for only bookmarked data
+$only_bookmarked_data = [];
+foreach ($all_data as $data) {
+    $data_id = intval($data["id"]);
+    
+    // Use strict comparison to check if the value is found and not at index 0
+    $is_this_bookmarked = array_search($data_id, $bookmarks, true);
+
+    if ($is_this_bookmarked !== false) {
+        $only_bookmarked_data[] = $data;
     }
 }
 
@@ -51,7 +62,7 @@ mysqli_close($conn);
 
             <section class="main-content__content">
                 <?php
-                foreach ($all_data as $data) {
+                foreach ($only_bookmarked_data as $data) {
                     include("../components/main_content_card.php");
                 }
                 ?>
