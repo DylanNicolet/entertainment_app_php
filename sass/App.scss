@@ -4,8 +4,8 @@
 @use "./layouts/Header";
 
 @use "./components/Search";
-@use "./components/TrendingItemCard";
-@use "./components/homepage-card";
+@use "./components/trending-swiper";
+@use "./components/main_content_card";
 
 @use "./pages/Home";
 @use "./pages/Login";

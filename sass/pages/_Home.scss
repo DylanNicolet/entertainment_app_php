@@ -20,23 +20,24 @@
         }
     }
 
-    .main-content, .search-results {
-        width: 90%;
-        margin: auto auto 70px auto;
+}
 
-        &__title {
-            margin-bottom: 1rem;
-            font-weight: 300;
-            font-size: 1.4rem;
-        }
+.main-content, .search-results {
+    width: 90%;
+    margin: auto auto 70px auto;
 
-        &__content {
-            width: 100%;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            grid-template-rows: auto;
-            grid-column-gap: 5%;
-            grid-row-gap: 20px;
-        }
+    &__title {
+        margin-bottom: 2rem;
+        font-weight: 300;
+        font-size: 1.4rem;
+    }
+
+    &__content {
+        width: 100%;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: auto;
+        grid-column-gap: 5%;
+        grid-row-gap: 20px;
     }
 }

@@ -23,6 +23,7 @@ mysqli_close($conn);
     <title>Entertainment Web App | Home</title>
     <link rel="icon" type="image/png" href="../assets/logo.svg">
     <link rel="stylesheet" href="../sass/App.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 </head>
 
 <body class="home">
@@ -37,14 +38,34 @@ mysqli_close($conn);
         <section class="trending">
             <h2 class="trending__title">Trending</h2>
 
-            <section>
-                <?php
-                foreach ($all_data as $data) {
-                    if ($data["is_trending"]) {
-                        echo "Title: " . $data["title"] . "<br>";
-                    }
-                }
-                ?>
+            <section class="swiper">
+                <section class="swiper-wrapper">
+                    <?php
+                    foreach ($all_data as $data) {
+                        if ($data["is_trending"]) { ?>
+                            <section class="swiper-slide trending-slide">
+                                <img src="<?php echo "../" . $data['img_trend_sm']; ?>" alt="<?php echo $data['title']; ?>" class="trending-slide__image">
+
+                                <button class="trending-slide__bookmark-btn">
+                                    <section class="bookmark-icon"></section>
+                                </button>
+
+                                <section class="trending-slide__info">
+                                    <p><?php echo $data['year']; ?></p>
+                                    &#x2022;
+                                    <section class="info-category">
+                                        <img src="<?php echo $data['category'] == 'Movie' ? '../assets/icon-category-movie.svg' : '../assets/icon-category-tv.svg'; ?>">
+                                        <p><?php echo $data['category']; ?></p>
+                                    </section>
+                                    &#x2022;
+                                    <p><?php echo $data['rating']; ?></p>
+                                    <h2 class="info-title"><?php echo $data['title']; ?></h2>
+                                </section>
+                            </section>
+                    <?php }
+                    } ?>
+
+                </section>
             </section>
         </section>
 
@@ -55,13 +76,21 @@ mysqli_close($conn);
                 <?php
                 foreach ($all_data as $data) {
                     if (!$data["is_trending"]) {
-                        include("../components/homepage_card.php");
+                        include("../components/main_content_card.php");
                     }
                 }
                 ?>
             </section>
         </section>
     </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script>
+        const swiper = new Swiper('.swiper', {
+            slidesPerView: 1.5,
+            //spaceBetween: 30,
+        });
+    </script>
 </body>
 
 </html>

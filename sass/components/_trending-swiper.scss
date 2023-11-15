@@ -1,11 +1,12 @@
 @use "../utils" as u;
 
-.trending-item-card {
+.trending-slide {
 	width: 100%;
 	border-radius: 10px;
 	overflow: hidden;
 	position: relative;
 	cursor: pointer;
+	margin-left: 5%;
 
 	&__image {
 		width: 100%;
