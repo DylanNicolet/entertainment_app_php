@@ -18,8 +18,15 @@ $stmtSelect->close();
 // Decode existing bookmarks JSON string to array
 $existingBookmarksArray = json_decode($existingBookmarks, true);
 
-// Append the new bookmark to the array
-$existingBookmarksArray[] = $newBookmark;
+// Check if bookmark already exists
+$keyToRemove = array_search($newBookmark, $existingBookmarksArray);
+if ($keyToRemove !== false) {
+    // Remove bookmark if it already exists
+    array_splice($existingBookmarksArray, $keyToRemove, 1);
+} else {
+    // Append the new bookmark to the array
+    $existingBookmarksArray[] = $newBookmark;
+}
 
 // Encode the updated array back to JSON
 $updatedBookmarks = json_encode($existingBookmarksArray);

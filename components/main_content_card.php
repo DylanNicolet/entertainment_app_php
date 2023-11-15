@@ -1,10 +1,11 @@
 <?php
-$is_bookmarked = false;
-$data_id = intval($data["id"]);
+    $is_bookmarked = false;
+    $data_id = intval($data["id"]);
 
-if (isset($bookmarks) && in_array($data_id, $bookmarks)) {
-    $is_bookmarked = true;
-}
+    //Check if this item is already bookmarked
+    if (isset($bookmarks) && in_array($data_id, $bookmarks)) {
+        $is_bookmarked = true;
+    }
 ?>
 
 <div class="main-content-card">
@@ -33,7 +34,7 @@ if (isset($bookmarks) && in_array($data_id, $bookmarks)) {
         var userID = <?php echo json_encode($userID); ?>;
 
         $('#bookmark-btn_<?php echo $data['id']; ?>').click(function() {
-            // Send an AJAX request to update the user's record
+            // AJAX request to update the user's bookmarks
             $.ajax({
                 type: 'POST',
                 url: '../components/update_bookmarks.php',
@@ -42,8 +43,7 @@ if (isset($bookmarks) && in_array($data_id, $bookmarks)) {
                     userID: <?php echo $userID; ?>
                 },
                 success: function(response) {
-                    console.log(response); // Log the response from the server
-                    $('#bookmark-btn_<?php echo $data['id']; ?>').addClass('--active');
+                    $('#bookmark-btn_<?php echo $data['id']; ?>').toggleClass('--active');
                 },
                 error: function(error) {
                     console.error(error); // Log any errors
