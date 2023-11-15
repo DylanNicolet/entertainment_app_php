@@ -2,6 +2,15 @@
 session_start();
 include("../database.php");
 
+// Get bookmarks and id of current user from database, used in "main_content_card.php"
+$userID = $_SESSION["user_id"];
+$sql_user_bookmarks = "SELECT bookmarks FROM users WHERE id = $userID";
+$result = $conn->query($sql_user_bookmarks);
+if ($result->num_rows > 0) {
+    $row = $result->fetch_assoc();
+    $bookmarks = json_decode($row['bookmarks'], true);
+}
+
 // Get all data from database
 $sql = "SELECT * FROM data";
 $result = $conn->query($sql);
