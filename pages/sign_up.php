@@ -1,4 +1,5 @@
 <?php
+session_start();
 include("../database.php");
 
 $email_error = "";
@@ -13,11 +14,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo "Please enter a password";
     } else {
         $hash = password_hash($password, PASSWORD_DEFAULT);
-        $sql = "INSERT INTO users (user_email, user_password) VALUES ('$user_email', '$hash')";
+        $sql = "INSERT INTO users (user_email, user_password, bookmarks) VALUES ('$user_email', '$hash', '[]')";
+        
 
         try {
             mysqli_query($conn, $sql);
             $email_error = "";
+
+            // Assuming you are using MySQLi for database access
+            $sql_get_new_id = "SELECT id FROM users WHERE user_email = ?";
+            $stmt_get_new_id = $conn->prepare($sql_get_new_id);
+            $stmt_get_new_id->bind_param("s", $user_email);
+            $stmt_get_new_id->execute();
+            $stmt_get_new_id->bind_result($new_user_id);
+
+            // Fetch the result
+            $stmt_get_new_id->fetch();
+
+            // Store the user ID in the session
+            $_SESSION["user_id"] = $new_user_id;
 
             header("Location: homepage.php");
             exit();
@@ -39,6 +54,7 @@ mysqli_close($conn);
     <title>Entertainment Web App | Sign Up</title>
     <link rel="icon" type="image/png" href="../assets/logo.svg">
     <link rel="stylesheet" href="../sass/App.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 </head>
 
 <body class="sign_up">
@@ -70,8 +86,6 @@ mysqli_close($conn);
             <a href="../index.php">Login</a>
         </section>
     </form>
-
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 
     <script>
         $(document).ready(function() {

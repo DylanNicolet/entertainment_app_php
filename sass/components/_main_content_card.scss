@@ -20,7 +20,8 @@
         border: none;
         transition: all 500ms;
 
-        &:hover, &:active {
+        &:hover,
+        &:active {
             background-color: u.$color-text-primary;
 
             .bookmark-icon {
@@ -36,10 +37,10 @@
             &:hover {
                 .bookmark-icon {
                     background-image: url('./../assets/icon-bookmark-full-hover.svg');
-                } 
+                }
             }
         }
-        
+
         .bookmark-icon {
             background-image: url('./../assets/icon-bookmark-empty.svg');
             background-position: center;
@@ -50,7 +51,7 @@
             left: 50%;
             top: 50%;
             position: absolute;
-            transform: translate(-47%,-50%);
+            transform: translate(-47%, -50%);
         }
     }
 
@@ -74,7 +75,7 @@
         .info-category {
             display: flex;
             align-items: center;
-            
+
             img {
                 height: 75%;
                 margin-left: 0.5rem;

@@ -2,9 +2,20 @@
 session_start();
 include("../database.php");
 
+// Get bookmarks of current user from database
+$userID = $_SESSION["user_id"];
+$sql_user_bookmarks = "SELECT bookmarks FROM users WHERE id = $userID";
+$result = $conn->query($sql_user_bookmarks);
+
+if ($result->num_rows > 0) {
+    $row = $result->fetch_assoc();
+    $bookmarks = json_decode($row['bookmarks'], true);
+}
+
 // Get all data from database
 $sql = "SELECT * FROM data";
 $result = $conn->query($sql);
+
 if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
         $all_data[] = $row;
@@ -23,9 +34,10 @@ mysqli_close($conn);
     <title>Entertainment Web App | Bookmarked</title>
     <link rel="icon" type="image/png" href="../assets/logo.svg">
     <link rel="stylesheet" href="../sass/App.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 </head>
 
-<body class="tv-series">
+<body class="bookmarked">
     <?php include("../layouts/header.php"); ?>
 
     <main>
