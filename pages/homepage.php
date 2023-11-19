@@ -14,6 +14,7 @@ if ($result->num_rows > 0) {
 // Get all data from database
 $sql = "SELECT * FROM data";
 $result = $conn->query($sql);
+$all_data = [];
 if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
         $all_data[] = $row;
@@ -103,18 +104,21 @@ mysqli_close($conn);
                 ?>
             </section>
         </section>
+
+        <section class="search main-content" style="display: none;">
+        </section>
     </main>
 
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script>
-        // Initialise swiper
-        const swiper = new Swiper('.swiper', {
-            slidesPerView: 1.5,
-            loop: true
-        });
-
-        // Handle trending bookmark click
         $(document).ready(function() {
+            // Initialise swiper
+            const swiper = new Swiper('.swiper', {
+                slidesPerView: 1.5,
+                loop: true
+            });
+            
+            // Handle trending bookmark click
             $('.trending-slide__bookmark-btn').click(function() {
                 var dataID = parseInt($(this).data("id"));
 
@@ -130,9 +134,41 @@ mysqli_close($conn);
                         $('#trending-slide__bookmark-btn-' + dataID).toggleClass("--active");
                     },
                     error: function(error) {
-                        console.error(error); // Log any errors
+                        console.error(error);
                     }
                 });
+            });
+
+            // Search functionality
+            let searchInput = $(".search__input");
+
+            searchInput.on("input", function(){
+                if (searchInput.val().length > 2) {
+                    $(".trending").hide();
+                    $(".recommended.main-content").hide();
+                    $(".search.main-content").show();
+
+                    $.ajax({
+                        url: '../components/AJAX_search.php',
+                        type: 'POST',
+                        data: {
+                            searchValue: searchInput.val(),
+                            page: "homepage",
+                            userID: <?php echo $userID ?>
+                        },
+                        success: function(response) {
+                            $(".search.main-content").html(response);
+                        },
+                        error: function(error) {
+                            console.error(error);
+                        }
+                    });
+
+                } else if (searchInput.val().length == 0){
+                    $(".trending").show();
+                    $(".recommended.main-content").show();
+                    $(".search.main-content").hide();
+                }
             });
         });
     </script>

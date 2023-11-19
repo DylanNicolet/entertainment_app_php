@@ -14,7 +14,7 @@ if ($result->num_rows > 0) {
 // Get only TV series with "category" set as "TV Series" from the database
 $sql = "SELECT * FROM data WHERE category = 'TV Series'";
 $result = $conn->query($sql);
-
+$all_data = [];
 if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
         $all_data[] = $row;

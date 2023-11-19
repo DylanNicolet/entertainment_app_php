@@ -14,7 +14,7 @@ if ($result->num_rows > 0) {
 // Get only movies with "category" set as "Movie" from the database
 $sql = "SELECT * FROM data WHERE category = 'Movie'";
 $result = $conn->query($sql);
-
+$all_data = [];
 if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
         $all_data[] = $row;

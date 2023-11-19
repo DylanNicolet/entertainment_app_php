@@ -14,6 +14,7 @@ if ($result->num_rows > 0) {
 // Get all data from database
 $sql = "SELECT * FROM data";
 $result = $conn->query($sql);
+$all_data = [];
 if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
         $all_data[] = $row;
