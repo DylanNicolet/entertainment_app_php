@@ -30,14 +30,12 @@
 
 <script>
     $(document).ready(function() {
-        var dataID = <?php echo json_encode($data_id); ?>;
-        var userID = <?php echo json_encode($userID); ?>;
-
+        // Handle bookmark click
         $('#bookmark-btn_<?php echo $data['id']; ?>').click(function() {
             // AJAX request to update the user's bookmarks
             $.ajax({
                 type: 'POST',
-                url: '../components/update_bookmarks.php',
+                url: '../components/AJAX_update_bookmarks.php',
                 data: {
                     dataID: <?php echo $data_id; ?>,
                     userID: <?php echo $userID; ?>

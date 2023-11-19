@@ -52,11 +52,22 @@ mysqli_close($conn);
                 <section class="swiper-wrapper">
                     <?php
                     foreach ($all_data as $data) {
+                        //Check if this item is already bookmarked
+                        $is_bookmarked = false;
+
+                        if (isset($bookmarks) && in_array($data["id"], $bookmarks)) {
+                            $is_bookmarked = true;
+                        }
+
                         if ($data["is_trending"]) { ?>
                             <section class="swiper-slide trending-slide">
                                 <img src="<?php echo "../" . $data['img_trend_sm']; ?>" alt="<?php echo $data['title']; ?>" class="trending-slide__image">
 
-                                <button class="trending-slide__bookmark-btn">
+                                <button 
+                                    class="trending-slide__bookmark-btn <?php echo $is_bookmarked ? "--active" : "" ?>" 
+                                    id="trending-slide__bookmark-btn-<?php echo $data['id'] ?>" 
+                                    data-id="<?php echo $data['id'] ?>"
+                                >
                                     <section class="bookmark-icon"></section>
                                 </button>
 
@@ -96,9 +107,33 @@ mysqli_close($conn);
 
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script>
+        // Initialise swiper
         const swiper = new Swiper('.swiper', {
             slidesPerView: 1.5,
-            //spaceBetween: 30,
+            loop: true
+        });
+
+        // Handle trending bookmark click
+        $(document).ready(function() {
+            $('.trending-slide__bookmark-btn').click(function() {
+                var dataID = parseInt($(this).data("id"));
+
+                // AJAX request to update the user's bookmarks
+                $.ajax({
+                    type: 'POST',
+                    url: '../components/AJAX_update_bookmarks.php',
+                    data: {
+                        dataID: dataID,
+                        userID: <?php echo $userID; ?>
+                    },
+                    success: function(response) {
+                        $('#trending-slide__bookmark-btn-' + dataID).toggleClass("--active");
+                    },
+                    error: function(error) {
+                        console.error(error); // Log any errors
+                    }
+                });
+            });
         });
     </script>
 </body>
