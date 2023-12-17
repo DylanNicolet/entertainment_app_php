@@ -32,6 +32,7 @@
     $(document).ready(function() {
         // Handle bookmark click
         $('#bookmark-btn_<?php echo $data['id']; ?>').click(function() {
+            console.log("detect click");
             // AJAX request to update the user's bookmarks
             $.ajax({
                 type: 'POST',

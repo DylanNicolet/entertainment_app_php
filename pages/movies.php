@@ -56,7 +56,44 @@ mysqli_close($conn);
                 ?>
             </section>
         </section>
+
+        <section class="search main-content" style="display: none;"></section>
     </main>
 </body>
+
+<script>
+    $(document).ready(function() {
+        // Search functionality
+        let searchInput = $(".search__input");
+
+        searchInput.on("input", function(){
+            if (searchInput.val().length > 2) {
+                $(".main-content").hide();
+                $(".search.main-content").show();
+
+                $.ajax({
+                    url: '../components/AJAX_search.php',
+                    type: 'POST',
+                    data: {
+                        searchValue: searchInput.val(),
+                        page: "movies",
+                        userID: <?php echo $userID ?>
+                    },
+                    success: function(response) {
+                        $(".search.main-content").html(response);
+                    },
+                    error: function(error) {
+                        console.error(error);
+                    }
+                });
+
+            } else if (searchInput.val().length == 0){
+                $(".main-content").show();
+                $(".search.main-content").hide();
+            }
+        });
+
+    });
+</script>
 
 </html>

@@ -5,20 +5,41 @@
     $searchValue = $_POST['searchValue'];
     $page = $_POST['page'];
     $userID = $_POST['userID'];
-
-    // Get search data from database
-    $sql = "SELECT * FROM data WHERE title LIKE '%$searchValue%'";
-    $result = $conn->query($sql);
-    if (!$result) {
-        die("Query failed: " . $conn->error);
-    }
-
     $all_search_data = [];
 
-    if ($result->num_rows > 0) {
-        while ($row = $result->fetch_assoc()) {
-            $all_search_data[] = $row;
+    $sql_user_bookmarks = "SELECT bookmarks FROM users WHERE id = $userID";
+    $resultBookmarks = $conn->query($sql_user_bookmarks);
+    if ($resultBookmarks->num_rows > 0) {
+        $row = $resultBookmarks->fetch_assoc();
+        $bookmarks = json_decode($row['bookmarks'], true);
+    }
+
+    if ($page != 'bookmarked') {
+        // Get search data from database
+        $sql = "SELECT * FROM data WHERE title LIKE '%$searchValue%'"; // Homepage
+        if ($page === 'movies') {
+            $sql = "SELECT * FROM data WHERE title LIKE '%$searchValue%' AND category = 'Movie'";
+        } else if ($page === 'tv_series') {
+            $sql = "SELECT * FROM data WHERE title LIKE '%$searchValue%' AND category = 'TV Series'";
         }
+
+        $result = $conn->query($sql);
+        if (!$result) {
+            die("Query failed: " . $conn->error);
+        }
+
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                $all_search_data[] = $row;
+            }
+        }
+    } else {
+        $rawOnlyBookmarkedData = $_POST['onlyBookmarkedData'];
+        $onlyBookmarkedData = json_decode($rawOnlyBookmarkedData, true);
+
+        $all_search_data = array_filter($onlyBookmarkedData, function ($item) use ($searchValue) {
+            return stripos($item['title'], $searchValue) !== false;
+        });
     }
 
     $result_length = count($all_search_data);

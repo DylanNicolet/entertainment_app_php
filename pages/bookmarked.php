@@ -34,6 +34,9 @@ foreach ($all_data as $data) {
     }
 }
 
+// Encode the array as JSON
+$only_bookmarked_data_json = json_encode($only_bookmarked_data);
+
 mysqli_close($conn);
 ?>
 
@@ -69,7 +72,47 @@ mysqli_close($conn);
                 ?>
             </section>
         </section>
+
+        <section class="search main-content" style="display: none;"></section>
     </main>
 </body>
+
+<script>
+    $(document).ready(function() {
+        var onlyBookmarkedData = <?php echo $only_bookmarked_data_json; ?>;
+
+        // Search functionality
+        let searchInput = $(".search__input");
+
+        searchInput.on("input", function(){
+            if (searchInput.val().length > 2) {
+                $(".main-content").hide();
+                $(".search.main-content").show();
+
+                $.ajax({
+                    url: '../components/AJAX_search.php',
+                    type: 'POST',
+                    data: {
+                        searchValue: searchInput.val(),
+                        page: "bookmarked",
+                        userID: <?php echo $userID ?>,
+                        onlyBookmarkedData: JSON.stringify(onlyBookmarkedData)
+                    },
+                    success: function(response) {
+                        $(".search.main-content").html(response);
+                    },
+                    error: function(error) {
+                        console.error(error);
+                    }
+                });
+
+            } else if (searchInput.val().length == 0){
+                $(".main-content").show();
+                $(".search.main-content").hide();
+            }
+        });
+
+    });
+</script>
 
 </html>
